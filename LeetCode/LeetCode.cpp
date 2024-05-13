@@ -3,55 +3,40 @@
 #include <unordered_map>
 #include <stack>
 
-// ============================================== Valid Parentheses ==============================================
+// ============================================== Reverse Prefix of Word ==========================================
 /*
-* Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+* Given a 0-indexed string word and a character ch, reverse the segment of word that starts at index 0 and ends at the index of the first occurrence of ch (inclusive). If the character ch does not exist in word, do nothing.
 * 
-* An input string is valid if:
-* 
-* 1. Open brackets must be closed by the same type of brackets.
-* 2. Open brackets must be closed in the correct order.
-* 3. Every close bracket has a corresponding open bracket of the same type.
+* For example, if word = "abcdefd" and ch = "d", then you should reverse the segment that starts at 0 and ends at 3 (inclusive). The resulting string will be "dcbaefd".
+* Return the resulting string.
 * 
 * Example 1:
-* Input: s = "()"
-* Output: true
+* Input: word = "abcdefd", ch = "d"
+* Output: "dcbaefd"
+* Explanation: The first occurrence of "d" is at index 3. 
+* Reverse the part of word from 0 to 3 (inclusive), the resulting string is "dcbaefd".
 * 
 * Example 2:
-* Input: s = "()[]{}"
-* Output: true
+* Input: word = "xyxzxe", ch = "z"
+* Output: "zxyxxe"
+* Explanation: The first and only occurrence of "z" is at index 3.
+* Reverse the part of word from 0 to 3 (inclusive), the resulting string is "zxyxxe".
 * 
 * Example 3:
-* Input: s = "(]"
-* Output: false
+* Input: word = "abcd", ch = "z"
+* Output: "abcd"
+* Explanation: "z" does not exist in word.
+* You should not do any reverse operation, the resulting string is "abcd".
 */
 // ---------------------------------------------------------------------------------------------------------------
-class Solution
+class Solution 
 {
 public:
-    static bool isValid(std::string s)
+    std::string reversePrefix(std::string word, char ch) 
     {
-        if (s.empty() ) return false;
-
-        std::stack<char> stack;
-
-        for (char letter: s)
-        {
-            if (letter == '(' || letter == '[' || letter == '{')
-                stack.push(letter);
-
-            else if
-                (
-                    stack.empty() ||
-                    (letter == ')' && stack.top() != '(') ||
-                    (letter == ']' && stack.top() != '[') ||
-                    (letter == '}' && stack.top() != '{')
-                )
-                return false;
-            else
-                stack.pop();
-        }
-        return stack.empty();
+        int chIndex = word.find(ch); // Find ch
+        std::reverse(word.begin(), word.begin() + chIndex + 1 ); // Reverse prefix
+        return word;
     }
 };
 // ---------------------------------------------------------------------------------------------------------------
