@@ -1,40 +1,57 @@
 #include <stdio.h>
 #include <vector>
 #include <unordered_map>
+#include <stack>
 
-// ============================================== Longest Common Prefix ==========================================
+// ============================================== Valid Parentheses ==============================================
 /*
-* Write a function to find the longest common prefix string amongst an array of strings.
+* Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 * 
-* If there is no common prefix, return an empty string "".
+* An input string is valid if:
+* 
+* 1. Open brackets must be closed by the same type of brackets.
+* 2. Open brackets must be closed in the correct order.
+* 3. Every close bracket has a corresponding open bracket of the same type.
 * 
 * Example 1:
-* Input: strs = ["flower","flow","flight"]
-* Output: "fl"
+* Input: s = "()"
+* Output: true
 * 
 * Example 2:
-* Input: strs = ["dog","racecar","car"]
-* Output: ""
-* Explanation: There is no common prefix among the input strings.
+* Input: s = "()[]{}"
+* Output: true
+* 
+* Example 3:
+* Input: s = "(]"
+* Output: false
 */
 // ---------------------------------------------------------------------------------------------------------------
 class Solution
 {
 public:
-    std::string longestCommonPrefix(std::vector<std::string> &strs) 
+    static bool isValid(std::string s)
     {
-        if (strs.size() == 0) return "";
+        if (s.empty() ) return false;
 
-        std::string prefix = strs[0];
-        for (unsigned int i = 1; i < strs.size(); i++)
+        std::stack<char> stack;
+
+        for (char letter: s)
         {
-            while (strs[i].find(prefix) != 0)
-            {
-                prefix = prefix.substr(0, prefix.size() - 1);
-                if (prefix.empty() ) return "";
-            }
+            if (letter == '(' || letter == '[' || letter == '{')
+                stack.push(letter);
+
+            else if
+                (
+                    stack.empty() ||
+                    (letter == ')' && stack.top() != '(') ||
+                    (letter == ']' && stack.top() != '[') ||
+                    (letter == '}' && stack.top() != '{')
+                )
+                return false;
+            else
+                stack.pop();
         }
-        return prefix;
+        return stack.empty();
     }
 };
 // ---------------------------------------------------------------------------------------------------------------
