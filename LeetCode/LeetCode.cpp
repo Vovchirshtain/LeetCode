@@ -1,219 +1,69 @@
 #include <stdio.h>
-#include <algorithm>
+#include <vector>
 
-// ============================================== Make Linked List ==============================================
-/*
-*                                                                                                     * * * * * *
-*                                                                                                     * EXAMPLE *
-*                                                                                                     * * * * * *
-* struct Node
-* {
-* private:
-*     int data;
-*     Node *next;
-* 
-* public:
-*     Node()
-*     { data = 0; next = nullptr; }
-* 
-*     void Set_Data(int new_data)
-*     { data = new_data; }
-* 
-*     void Set_Next_Node(Node *new_next_node)
-*     { next = new_next_node; }
-* 
-*     int Get_Data()
-*     { return data; }
-* 
-*     Node *Get_Next_Node()
-*     { return next; }
-* };
-* // ---------------------------------------------------------------------------------------------------------------
-* class Linked_List
-* {
-* private:
-*     Node *head, *tail;
-* 
-* public:
-*     Linked_List()
-*     { head = nullptr; tail = nullptr; }
-* 
-*     void Add_Node(int new_data)
-*     {
-*         Node *temp = new Node;
-*         temp->Set_Data(new_data);
-*         temp->Set_Next_Node(nullptr);
-* 
-*         if (head)
-*         {
-*             tail->Set_Next_Node(temp);
-*             tail = temp;
-*         }
-*         else
-*         {
-*             head = temp;
-*             tail = temp;
-*         }
-*     }
-* 
-*     void Print_List()
-*     {
-*         if (head)
-*         {
-*             Node *temp = head;
-*             printf("List: ");
-*             while (temp)
-*             {
-*                 printf("%i ", temp->Get_Data() );
-*                 temp =  temp->Get_Next_Node();
-*             }
-*             printf("\n");
-*         }
-*         else
-*             printf("List is empty\n");
-*     }
-* 
-*     int Get_Head_Data()
-*     {
-*         if (head)
-*             return head->Get_Data();
-*         else
-*         {
-*             printf("No head data\n");
-*             return -1;
-*         }
-*     }
-* 
-*     int Get_Tail_Data()
-*     {
-*         if (tail)
-*             return tail->Get_Data();
-*         else
-*         {
-*             printf("No tail data\n");
-*             return -1;
-*         }
-*     }
-* 
-*     unsigned int Get_List_Length()
-*     {
-*         unsigned int list_length = 0;
-* 
-*         if (head)
-*         {
-*             Node *temp = head;
-* 
-*             while (temp)
-*             {
-*                 temp = temp->Get_Next_Node();
-*                 list_length++;
-*             }
-*             return list_length;
-*         }
-*         else return 0;
-*     }
-* };
-*/
-// ============================================== Merge Two Sorted Lists ==========================================
+// ============================================== Remove Duplicates from Sorted Array ==============================================
 /*
 * You are given the heads of two sorted linked lists list1 and list2.
+* Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
 * 
-* Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists.
+* Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:
 * 
-* Return the head of the merged linked list.
+* Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially.
+* The remaining elements of nums are not important as well as the size of nums.
+* Return k.
+* 
+* Custom Judge:
+* 
+* The judge will test your solution with the following code:
+* 
+* int[] nums = [...]; // Input array
+* int[] expectedNums = [...]; // The expected answer with correct length
+* 
+* int k = removeDuplicates(nums); // Calls your implementation
+* 
+* assert k == expectedNums.length;
+* for (int i = 0; i < k; i++)
+*     assert nums[i] == expectedNums[i];
+* 
+* If all assertions pass, then your solution will be accepted.
 * 
 * Example 1:
-* Input: list1 = [1,2,4], list2 = [1,3,4]
-* Output: [1,1,2,3,4,4]
+* Input: nums = [1,1,2]
+* Output: 2, nums = [1,2,_]
+* Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
+* It does not matter what you leave beyond the returned k (hence they are underscores).
 * 
 * Example 2:
-* Input: list1 = [], list2 = []
-* Output: []
-* 
-* Example 3:
-* Input: list1 = [], list2 = [0]
-* Output: [0]
+* Input: nums = [0,0,1,1,1,2,2,3,3,4]
+* Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+* Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
+* It does not matter what you leave beyond the returned k (hence they are underscores).
 */
 // ---------------------------------------------------------------------------------------------------------------
-/*struct ListNode
-* {
-*     int val;
-*     ListNode *next;
-* 
-*     ListNode() : val(0), next(nullptr) {}
-*     ListNode(int x) : val(x), next(nullptr) {}
-*     ListNode(int x, ListNode *next) : val(x), next(next) {}
-* };
-*/
-// ---------------------------------------------------------------------------------------------------------------
-struct ListNode
-{
-private:
-    int val;
-    ListNode *next;
-
-public:
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
-
-    void Set_Data(int new_data)
-    { val = new_data; }
-
-    void Set_Next(ListNode *new_next)
-    { next = new_next; }
-
-    int Get_Data()
-    { return val; }
-
-    ListNode *Get_Next()
-    { return next; }
-
-    void Print_ListNode()
-    {
-        ListNode *temp = this;
-        printf("ListNode: ");
-        while (temp)
-        {
-            printf("%i ", temp->Get_Data() );
-            temp = temp->Get_Next();
-        }
-    }
-};
-// ---------------------------------------------------------------------------------------------------------------
-class Solution 
+class Solution
 {
 public:
-    static ListNode *mergeTwoLists(ListNode *list1, ListNode *list2) 
+    static int removeDuplicates(std::vector<int> &nums)
     {
-        if (!list1 || list2 && list1->Get_Data() > list2->Get_Data() ) 
-            /*std::swap(list1, list2);*/
+        int j = 1;
+
+        for (int i = 1; i < nums.size(); i++)
         {
-            ListNode *tmp;
-            tmp = list1;
-            list1 = list2;
-            list2 = tmp;
+            if (nums[i] != nums[i - 1])
+            {
+                nums[j] = nums[i];
+                j++;
+            }
         }
-
-        if (list1)
-            list1->Set_Next(mergeTwoLists(list1->Get_Next(), list2) );
-
-        return list1;
+        return j;
     }
 };
 // ---------------------------------------------------------------------------------------------------------------
 int main()
 {
-    ListNode list_3(4);
-    ListNode list_2(2, &list_3);
-    ListNode list_1(1, &list_2);
-
-    ListNode list_6(4);
-    ListNode list_5(3, &list_6);
-    ListNode list_4(1, &list_5);
-
-    ListNode *merged_list = Solution::mergeTwoLists(&list_1, &list_4);
-    merged_list->Print_ListNode();
+    std::vector<int> nums = {1, 1, 2, 3};
+    int unique_elements = Solution::removeDuplicates(nums);
+    printf("unique_elements: %i\n", unique_elements);
 
     return 0;
 }
